@@ -14,5 +14,19 @@
   "author": "KWEB",
   "type": "module",
   "main": "index.js",
-  "scripts": {}
+  "scripts": {
+    "build:shared": "npm run build -w shared",
+    "build": "npm run build:shared && npm run build -w backend -w frontend",
+    "typecheck": "npm run build:shared && npm run typecheck -w backend",
+    "dev:backend": "npm run dev -w backend",
+    "dev:frontend": "npm run dev -w frontend"
+  },
+  "workspaces": [
+    "shared",
+    "backend",
+    "frontend"
+  ],
+  "allowScripts": {
+    "esbuild": true
+  }
 }

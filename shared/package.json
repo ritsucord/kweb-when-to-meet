@@ -1,0 +1,28 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rm -rf dist"
+  },
+  "keywords": [],
+  "type": "module",
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  },
+  "main": "./dist/schemas.js",
+  "types": "./dist/schemas.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/schemas.d.ts",
+      "default": "./dist/schemas.js"
+    }
+  },
+  "files": [
+    "dist"
+  ]
+}

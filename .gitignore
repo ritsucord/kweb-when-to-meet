@@ -1,0 +1,33 @@
+# 의존성
+node_modules/
+
+# 빌드 결과물
+dist/
+build/
+*.tsbuildinfo
+
+# 환경 변수 (비밀 값은 절대 커밋하지 않기)
+.env
+.env.*
+!.env.example
+
+# 로그
+logs/
+*.log
+npm-debug.log*
+
+# 테스트 / 커버리지
+coverage/
+
+# 캐시
+.eslintcache
+.vite/
+.cache/
+
+# 에디터 / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
