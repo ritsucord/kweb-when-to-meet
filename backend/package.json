@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "prebuild": "npm run clean",
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "test": "tsx --test src/*.test.ts"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.5",
     "tsx": "^4.23.15",
@@ -20,9 +22,9 @@
   "dependencies": {
     "@orpc/openapi": "^1.16.1",
     "@orpc/server": "^1.16.1",
+    "better-sqlite3": "^13.0.3",
     "express": "^5.3.0",
-    "shared": "*",
-    "sqlite": "^5.1.1"
+    "shared": "*"
   },
   "keywords": [],
   "type": "module"
