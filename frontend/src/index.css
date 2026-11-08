@@ -1,207 +1,169 @@
-:root {
-  --text: #3b3943;
-  --text-muted: #77737f;
-  --text-h: #111016;
-  --bg: #f7f7f9;
-  --surface: #ffffff;
-  --border: #e3e2e7;
-  --accent: #6d3bd8;
-  --accent-hover: #5a2ec0;
-  --accent-bg: rgba(109, 59, 216, 0.1);
-  --danger: #c62f3d;
-  --danger-bg: rgba(198, 47, 61, 0.08);
-  --success: #1f8a4c;
-  --success-bg: rgba(31, 138, 76, 0.1);
-  --warning: #a86400;
-  --warning-bg: rgba(200, 130, 0, 0.12);
-  --radius: 10px;
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
+@import "@fontsource-variable/noto-serif-kr";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/600.css";
 
-  font: 15px/1.5 system-ui, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  -webkit-font-smoothing: antialiased;
+/*
+ * KUrdination 디자인 토큰 — 에디토리얼
+ * ------------------------------------------------------------------
+ * 색:     paper(바탕) · ink(글자) · line(1px 구획선) · accent(포인트 빨강, 좁게만)
+ *         ink-soft는 시각 눈금·자리표시자처럼 "읽지 않아도 되는" 글자에만 쓴다.
+ * 서체:   제목 = Noto Serif KR(명조) / 본문 = Pretendard / 숫자·날짜 = IBM Plex Mono(.num)
+ * 모서리: 0~4px. 큰 라운드 없음.
+ * 그림자: 없음. 층 구분은 1px 선으로만 한다.
+ * 간격:   4 · 8 · 12 · 16 · 24 · 32 · 48px (Tailwind 1 · 2 · 3 · 4 · 6 · 8 · 12)
+ * 선택:   반전(ink 배경 + paper 글자)으로만 표시한다.
+ *
+ * shadcn/ui 컴포넌트가 쓰는 이름(background, primary …)은 위 토큰에 연결만 해 둔다.
+ * 문서: frontend/design-system.html
+ */
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-serif: 'Noto Serif KR Variable', 'Noto Serif KR', 'Nanum Myeongjo', 'AppleMyungjo', serif;
+  --font-heading: var(--font-serif);
+  /* 숫자는 IBM Plex Mono, 그 안의 한글(월·명 등)은 Pretendard로 대체 */
+  --font-mono: 'IBM Plex Mono', 'Pretendard Variable', Pretendard, ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* 핵심 4색 (+ 보조 글자) */
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-accent-ink: var(--accent-ink);
+
+  /* 일정 상태: 구분이 필요한 칸에만 배경색을 쓴다 */
+  --color-confirmed: var(--confirmed);
+  --color-confirmed-ink: var(--confirmed-ink);
+  --color-tentative: var(--tentative);
+  --color-tentative-ink: var(--tentative-ink);
+  --color-tentative-line: var(--tentative-line);
+
+  /* shadcn/ui 호환 이름 → 핵심 토큰 */
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+  --color-card: var(--paper);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--paper);
+  --color-popover-foreground: var(--ink);
+  --color-primary: var(--ink);
+  --color-primary-foreground: var(--paper);
+  --color-secondary: var(--paper);
+  --color-secondary-foreground: var(--ink);
+  --color-muted: var(--wash);
+  --color-muted-foreground: var(--ink-soft);
+  --color-accent: var(--wash);
+  --color-accent-foreground: var(--ink);
+  --color-destructive: var(--accent-ink);
+  --color-border: var(--line);
+  --color-input: var(--line-strong);
+  --color-ring: var(--ink);
+
+  /* 모서리: 어떤 rounded-* 클래스를 써도 4px를 넘지 않는다 */
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 3px;
+  --radius-2xl: 4px;
+  --radius-3xl: 4px;
+  --radius-4xl: 4px;
+
+  /* 그림자 없음 */
+  --shadow-2xs: 0 0 #0000;
+  --shadow-xs: 0 0 #0000;
+  --shadow-sm: 0 0 #0000;
+  --shadow-md: 0 0 #0000;
+  --shadow-lg: 0 0 #0000;
+  --shadow-xl: 0 0 #0000;
+  --shadow-2xl: 0 0 #0000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #d4d3da;
-    --text-muted: #9a98a3;
-    --text-h: #f4f3f7;
-    --bg: #141418;
-    --surface: #1d1d23;
-    --border: #2f2f38;
-    --accent: #a78bfa;
-    --accent-hover: #c4b5fd;
-    --accent-bg: rgba(167, 139, 250, 0.15);
-    --danger: #f87171;
-    --danger-bg: rgba(248, 113, 113, 0.12);
-    --success: #4ade80;
-    --success-bg: rgba(74, 222, 128, 0.12);
-    --warning: #fbbf24;
-    --warning-bg: rgba(251, 191, 36, 0.12);
+/* ---------- 라이트 (기본) ---------- */
+/* .light: 다크 화면 안에서 일부만 라이트로 보여줄 때 (디자인 시스템 문서의 비교 미리보기) */
+:root,
+.light {
+  --radius: 2px;
+  --paper: #fbfaf7;        /* 신문지처럼 아주 옅은 미색 */
+  --ink: #151413;          /* 본문·제목·선택 반전 */
+  --ink-soft: #66625b;     /* 보조 글자 (paper 대비 5.9:1) */
+  --line: #d6d2c8;         /* 1px 구획선 */
+  --line-strong: #8f8a80;  /* 입력칸 테두리 */
+  --wash: #f0ede6;         /* 호버·스켈레톤에만 (선택 표시에 쓰지 않음) */
+  --accent-ink: #a6192e;   /* KU 크림슨: 오늘·현재 시각·위험·개수 */
+  --confirmed: #2d5c44;    /* 확정: 진한 초록 칸 + 흰 글자 (대비 7.4:1) */
+  --confirmed-ink: #fbfaf7;
+  --tentative: #f2e6c6;    /* 미확정: 옅은 황토 칸 + 진한 갈색 글자 + 점선 */
+  --tentative-ink: #4f3b10;
+  --tentative-line: #a8822f;
+}
+
+/* ---------- 다크 ---------- */
+.dark {
+  --paper: #121110;
+  --ink: #ece8df;
+  --ink-soft: #a29d93;
+  --line: #34312c;
+  --line-strong: #6d685f;
+  --wash: #1c1a18;
+  --accent-ink: #f0575f;
+  --confirmed: #4f9a72;
+  --confirmed-ink: #0d1510;
+  --tentative: #3a301c;
+  --tentative-ink: #f0dca6;
+  --tentative-line: #b8913e;
+}
+
+@layer base {
+  * {
+    @apply border-line outline-ink/40;
+  }
+  html {
+    @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+  }
+  body {
+    @apply bg-paper text-ink;
+    min-height: 100dvh;
+    font-size: 0.9375rem; /* 본문 15px */
+    line-height: 1.6;
+  }
+  h1, h2, h3 {
+    @apply font-serif text-ink;
+    letter-spacing: -0.01em;
+  }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+  ::selection {
+    @apply bg-ink text-paper;
   }
 }
 
-*, *::before, *::after { box-sizing: border-box; }
-body { margin: 0; }
-h1, h2, h3 { color: var(--text-h); line-height: 1.25; margin: 0 0 0.5em; }
-h1 { font-size: 1.6rem; }
-h2 { font-size: 1.2rem; }
-h3 { font-size: 1rem; }
-p { margin: 0 0 0.75em; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-/* ---------- 레이아웃 ---------- */
-.container { max-width: 960px; margin: 0 auto; padding: 24px 16px 64px; }
-.stack { display: flex; flex-direction: column; gap: 12px; }
-.row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.spacer { flex: 1; }
-.muted { color: var(--text-muted); font-size: 0.9em; }
-
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
+/* 숫자·날짜·시각: 고정폭 + 자릿수 정렬 */
+@utility num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
-/* ---------- 폼 ---------- */
-label { display: flex; flex-direction: column; gap: 4px; font-weight: 500; color: var(--text-h); }
-input, textarea, select {
-  font: inherit;
-  color: var(--text-h);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 10px;
-}
-input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent-bg); border-color: var(--accent); }
-.field-error { color: var(--danger); font-size: 0.85em; font-weight: 400; }
-
-button {
-  font: inherit;
-  font-weight: 500;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 8px 14px;
-  cursor: pointer;
-  background: var(--accent);
-  color: #fff;
-}
-button:hover:not(:disabled) { background: var(--accent-hover); }
-button:disabled { opacity: 0.55; cursor: not-allowed; }
-button.secondary { background: transparent; color: var(--text-h); border-color: var(--border); }
-button.secondary:hover:not(:disabled) { background: var(--accent-bg); }
-button.danger { background: var(--danger); }
-button.danger:hover:not(:disabled) { background: var(--danger); filter: brightness(1.1); }
-button.link { background: none; color: var(--accent); padding: 0; border: none; }
-
-/* ---------- 알림 ---------- */
-.alert { border-radius: 8px; padding: 10px 12px; font-size: 0.92em; }
-.alert.error { background: var(--danger-bg); color: var(--danger); }
-.alert.success { background: var(--success-bg); color: var(--success); }
-
-.badge {
-  display: inline-block;
-  font-size: 0.75em;
+/* 작은 대문자식 라벨 (표 머리, 구역 이름) */
+@utility eyebrow {
+  font-size: 0.75rem;
   font-weight: 600;
-  border-radius: 999px;
-  padding: 2px 8px;
-  background: var(--accent-bg);
-  color: var(--accent);
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
 }
-.badge.confirmed { background: var(--success-bg); color: var(--success); }
-.badge.tentative { background: var(--warning-bg); color: var(--warning); }
 
-/* ---------- 목록 ---------- */
-.list { list-style: none; margin: 0; padding: 0; }
-.list > li { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.list > li:last-child { border-bottom: none; }
-
-/* ---------- 상단 바 ---------- */
-.topbar { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
-.topbar-inner { max-width: 960px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-.brand { font-weight: 700; color: var(--text-h); font-size: 1.05rem; }
-.topbar nav a { color: var(--text-muted); padding: 4px 8px; border-radius: 6px; }
-.topbar nav a.active { color: var(--accent); background: var(--accent-bg); }
-.topbar nav a:hover { text-decoration: none; color: var(--text-h); }
-
-/* ---------- 로그인/가입 ---------- */
-.auth-page { max-width: 420px; padding-top: 64px; }
-
-/* ---------- 조직 ---------- */
-.org-link { font-weight: 600; color: var(--text-h); }
-.org-header h1 { margin: 4px 0; }
-.badge.admin { background: var(--accent-bg); color: var(--accent); }
-.badge.member { background: var(--border); color: var(--text-muted); }
-/* 회색 밑줄은 border 대신 안쪽 그림자로 그린다. 활성 탭의 보라 밑줄이 그 위에 겹쳐 보이고,
-   음수 margin이 필요 없어 내용이 넘치지 않는다(넘치면 overflow 때문에 스크롤바가 생긴다). */
-.tabs { display: flex; gap: 4px; box-shadow: inset 0 -1px 0 var(--border); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
-.tabs::-webkit-scrollbar { display: none; }
-.tabs a { padding: 8px 14px; color: var(--text-muted); border-bottom: 2px solid transparent; white-space: nowrap; }
-.tabs a:hover { text-decoration: none; color: var(--text-h); }
-.tabs a.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
-.confirm-box { border: 1px solid var(--danger); background: var(--danger-bg); border-radius: 8px; padding: 12px; width: 100%; }
-.danger-zone { border-color: var(--danger); }
-
-/* ---------- 초대 ---------- */
-.stack-tight { display: flex; flex-direction: column; gap: 2px; }
-.grow { flex: 1; min-width: 0; }
-.small { font-size: 0.82em; margin-top: 12px; }
-.alert.full { flex-basis: 100%; }
-.banner {
-  display: block; padding: 12px 16px; border-radius: var(--radius);
-  background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent);
+/* 선택 상태 = 반전. 사이드바·탭·날짜 줄·토글·목록·일정 블록이 모두 이것만 쓴다 */
+@utility selected {
+  background-color: var(--ink);
+  color: var(--paper);
 }
-.banner:hover { text-decoration: none; filter: brightness(1.05); }
-
-/* ---------- 일정 ---------- */
-.toolbar { gap: 6px; }
-.toolbar > button.secondary { padding: 6px 12px; }
-.week-label { margin-left: 6px; color: var(--text-h); }
-label.inline { flex-direction: row; align-items: center; gap: 6px; font-weight: 400; color: var(--text); }
-.row.two > label { flex: 1; min-width: 200px; }
-fieldset.plain { border: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-fieldset.plain legend { font-weight: 500; color: var(--text-h); padding: 0; margin-bottom: 6px; }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-.chip {
-  display: inline-flex; flex-direction: row; align-items: center; gap: 4px; font-weight: 400;
-  padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--text); cursor: pointer; font-size: 0.9em;
-}
-.chip input { display: none; }
-.chip.on { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
-span.chip { cursor: default; }
-.loading-dim { opacity: 0.6; transition: opacity 0.2s; }
-
-.week { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); overflow-x: auto; }
-.week-head, .week-grid { display: grid; grid-template-columns: 48px repeat(7, minmax(84px, 1fr)); min-width: 640px; }
-.week-head { border-bottom: 1px solid var(--border); }
-.week-day-head { padding: 8px 4px; text-align: center; font-size: 0.9em; border-left: 1px solid var(--border); }
-.week-day-head.today strong { background: var(--accent); color: #fff; border-radius: 999px; padding: 1px 7px; }
-.week-body { max-height: 560px; overflow-y: auto; min-width: 640px; }
-.week-grid { position: relative; }
-.week-gutter { position: relative; }
-.hour-label { position: absolute; right: 6px; transform: translateY(-50%); font-size: 0.72em; color: var(--text-muted); }
-.week-col { position: relative; border-left: 1px solid var(--border); }
-.week-col.today { background: var(--accent-bg); }
-.slot {
-  position: absolute; left: 0; right: 0; padding: 0; border-radius: 0;
-  background: transparent; border: none; border-top: 1px solid var(--border);
-}
-.slot:hover:not(:disabled) { background: var(--accent-bg); }
-.event-block {
-  position: absolute; z-index: 1; overflow: hidden; text-align: left;
-  display: flex; flex-direction: column; padding: 2px 6px; border-radius: 6px; font-size: 0.78em; line-height: 1.25;
-}
-.event-block.confirmed { background: var(--success); color: #fff; }
-.event-block.confirmed:hover:not(:disabled) { background: var(--success); filter: brightness(1.1); }
-.event-block.tentative {
-  background: repeating-linear-gradient(-45deg, var(--warning-bg), var(--warning-bg) 6px, transparent 6px, transparent 12px), var(--surface);
-  color: var(--warning); border: 1px dashed var(--warning);
-}
-.event-block.tentative:hover:not(:disabled) { background: var(--warning-bg); }
-.event-block.selected { outline: 2px solid var(--accent); outline-offset: 1px; z-index: 2; }
-.event-title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.event-time { opacity: 0.85; }

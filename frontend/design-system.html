@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KUrdination 디자인 시스템</title>
+    <!--
+      KUrdination 디자인 시스템 문서.
+      앱과 똑같은 토큰(src/index.css)과 컴포넌트(src/components)를 불러와 보여준다.
+      실행: npm run dev:frontend → http://localhost:5180/design-system.html
+    -->
+    <script>
+      try {
+        if (localStorage.getItem('kurdination-theme') === 'dark') document.documentElement.classList.add('dark')
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/design-system/main.tsx"></script>
+  </body>
+</html>

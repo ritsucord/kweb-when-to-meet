@@ -1,10 +1,15 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { CreateUserRequest } from 'shared'
-import { api } from '../api/client.ts'
-import { errorMessage } from '../api/errors.ts'
-import { useAuth } from '../auth/context.ts'
-import { fieldErrors } from '../lib/form.ts'
+import { api } from '@/api/client'
+import { errorMessage } from '@/api/errors'
+import { useAuth } from '@/auth/context'
+import { AuthLayout } from '@/components/AuthLayout'
+import { FormField } from '@/components/FormField'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { fieldErrors } from '@/lib/form'
 
 const messages = {
   name: '이름은 1~50자로 입력해 주세요.',
@@ -27,7 +32,7 @@ export default function SignupPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     // shared의 CreateUserRequest는 서버가 쓰는 것과 같은 스키마다. 여기서 통과하면 서버에서도 통과한다.
-    const parsed = CreateUserRequest.safeParse({ name: form.name.trim(), email: form.email, password: form.password })
+    const parsed = CreateUserRequest.safeParse({ name: form.name.trim(), email: form.email.trim(), password: form.password })
     const nextErrors = parsed.success ? {} : fieldErrors(parsed.error, messages)
     if (form.password !== form.passwordConfirm) nextErrors.passwordConfirm = '비밀번호가 일치하지 않습니다.'
     setErrors(nextErrors)
@@ -53,33 +58,30 @@ export default function SignupPage() {
   }
 
   return (
-    <main className="container auth-page">
-      <form className="card stack" onSubmit={handleSubmit} noValidate>
-        <h1>회원가입</h1>
-        <label>
-          이름
-          <input autoComplete="name" value={form.name} onChange={update('name')} />
-          {errors.name && <span className="field-error">{errors.name}</span>}
-        </label>
-        <label>
-          이메일
-          <input type="email" autoComplete="email" value={form.email} onChange={update('email')} />
-          {errors.email && <span className="field-error">{errors.email}</span>}
-        </label>
-        <label>
-          비밀번호 <span className="muted">(8자 이상)</span>
-          <input type="password" autoComplete="new-password" value={form.password} onChange={update('password')} />
-          {errors.password && <span className="field-error">{errors.password}</span>}
-        </label>
-        <label>
-          비밀번호 확인
-          <input type="password" autoComplete="new-password" value={form.passwordConfirm} onChange={update('passwordConfirm')} />
-          {errors.passwordConfirm && <span className="field-error">{errors.passwordConfirm}</span>}
-        </label>
-        {formError && <div className="alert error">{formError}</div>}
-        <button type="submit" disabled={submitting}>{submitting ? '가입 중…' : '가입하기'}</button>
-        <p className="muted">이미 계정이 있나요? <Link to="/login">로그인</Link></p>
+    <AuthLayout
+      title="회원가입"
+      footer={<>이미 계정이 있나요? <Link to="/login" className="font-semibold underline underline-offset-4">로그인</Link></>}
+    >
+      <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+        <FormField label="이름" error={errors.name}>
+          <Input autoComplete="name" placeholder="홍길동" value={form.name} onChange={update('name')} />
+        </FormField>
+        <FormField label="이메일" error={errors.email}>
+          <Input type="email" autoComplete="email" placeholder="you@korea.ac.kr" value={form.email} onChange={update('email')} />
+        </FormField>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <FormField label="비밀번호" hint=" (8자 이상)" error={errors.password}>
+            <Input type="password" autoComplete="new-password" value={form.password} onChange={update('password')} />
+          </FormField>
+          <FormField label="비밀번호 확인" error={errors.passwordConfirm}>
+            <Input type="password" autoComplete="new-password" value={form.passwordConfirm} onChange={update('passwordConfirm')} />
+          </FormField>
+        </div>
+        {formError && <Alert variant="destructive"><AlertDescription>{formError}</AlertDescription></Alert>}
+        <Button type="submit" size="lg" className="w-full" disabled={submitting}>
+          {submitting ? '가입 중…' : '가입하기'}
+        </Button>
       </form>
-    </main>
+    </AuthLayout>
   )
 }
