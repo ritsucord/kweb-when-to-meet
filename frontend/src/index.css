@@ -119,3 +119,14 @@ button.link { background: none; color: var(--accent); padding: 0; border: none; 
 .list { list-style: none; margin: 0; padding: 0; }
 .list > li { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .list > li:last-child { border-bottom: none; }
+
+/* ---------- 상단 바 ---------- */
+.topbar { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
+.topbar-inner { max-width: 960px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.brand { font-weight: 700; color: var(--text-h); font-size: 1.05rem; }
+.topbar nav a { color: var(--text-muted); padding: 4px 8px; border-radius: 6px; }
+.topbar nav a.active { color: var(--accent); background: var(--accent-bg); }
+.topbar nav a:hover { text-decoration: none; color: var(--text-h); }
+
+/* ---------- 로그인/가입 ---------- */
+.auth-page { max-width: 420px; padding-top: 64px; }
