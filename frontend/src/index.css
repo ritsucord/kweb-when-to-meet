@@ -136,8 +136,11 @@ button.link { background: none; color: var(--accent); padding: 0; border: none; 
 .org-header h1 { margin: 4px 0; }
 .badge.admin { background: var(--accent-bg); color: var(--accent); }
 .badge.member { background: var(--border); color: var(--text-muted); }
-.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); overflow-x: auto; }
-.tabs a { padding: 8px 14px; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+/* 회색 밑줄은 border 대신 안쪽 그림자로 그린다. 활성 탭의 보라 밑줄이 그 위에 겹쳐 보이고,
+   음수 margin이 필요 없어 내용이 넘치지 않는다(넘치면 overflow 때문에 스크롤바가 생긴다). */
+.tabs { display: flex; gap: 4px; box-shadow: inset 0 -1px 0 var(--border); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs a { padding: 8px 14px; color: var(--text-muted); border-bottom: 2px solid transparent; white-space: nowrap; }
 .tabs a:hover { text-decoration: none; color: var(--text-h); }
 .tabs a.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
 .confirm-box { border: 1px solid var(--danger); background: var(--danger-bg); border-radius: 8px; padding: 12px; width: 100%; }
