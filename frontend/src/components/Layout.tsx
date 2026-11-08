@@ -8,7 +8,7 @@ export default function Layout() {
     <>
       <header className="topbar">
         <div className="topbar-inner">
-          <Link to="/" className="brand">When to Meet</Link>
+          <Link to="/" className="brand">KUrdination</Link>
           <nav className="row">
             <NavLink to="/" end>내 조직</NavLink>
             <NavLink to="/invites">받은 초대</NavLink>
