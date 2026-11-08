@@ -11,6 +11,7 @@ export default function Layout() {
           <Link to="/" className="brand">When to Meet</Link>
           <nav className="row">
             <NavLink to="/" end>내 조직</NavLink>
+            <NavLink to="/invites">받은 초대</NavLink>
           </nav>
           <span className="spacer" />
           <span className="muted">{user?.name}</span>

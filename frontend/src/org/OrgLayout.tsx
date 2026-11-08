@@ -53,6 +53,8 @@ export default function OrgLayout() {
 
       <nav className="tabs">
         <NavLink to="members">멤버</NavLink>
+        {/* 초대 관리는 관리자에게만 보인다 */}
+        {myRole === 'admin' && <NavLink to="invites">초대</NavLink>}
       </nav>
 
       <Outlet context={context} />

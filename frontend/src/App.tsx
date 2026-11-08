@@ -2,10 +2,12 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import AuthProvider from './auth/AuthProvider.tsx'
 import RequireAuth, { GuestOnly } from './auth/RequireAuth.tsx'
 import Layout from './components/Layout.tsx'
+import InvitesPage from './org/InvitesPage.tsx'
 import MembersPage from './org/MembersPage.tsx'
 import OrgLayout from './org/OrgLayout.tsx'
 import HomePage from './pages/HomePage.tsx'
 import LoginPage from './pages/LoginPage.tsx'
+import MyInvitesPage from './pages/MyInvitesPage.tsx'
 import SignupPage from './pages/SignupPage.tsx'
 
 // 화면(페이지)과 URL 경로를 연결하는 곳.
@@ -25,10 +27,12 @@ export default function App() {
           <Route element={<RequireAuth />}>
             <Route element={<Layout />}>
               <Route path="/" element={<HomePage />} />
+              <Route path="/invites" element={<MyInvitesPage />} />
               {/* 조직 화면: OrgLayout(조직 이름, 탭) 안에 탭 페이지가 그려진다 */}
               <Route path="/orgs/:orgId" element={<OrgLayout />}>
                 <Route index element={<Navigate to="members" replace />} />
                 <Route path="members" element={<MembersPage />} />
+                <Route path="invites" element={<InvitesPage />} />
               </Route>
             </Route>
           </Route>

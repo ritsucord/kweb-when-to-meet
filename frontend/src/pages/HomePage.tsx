@@ -6,6 +6,7 @@ import { errorMessage } from '../api/errors.ts'
 import RoleBadge from '../components/RoleBadge.tsx'
 import { fieldErrors } from '../lib/form.ts'
 import { useApi } from '../lib/useApi.ts'
+import { PendingInvitesBanner } from './MyInvitesPage.tsx'
 
 // 로그인 후 첫 화면: 내가 속한 조직 목록 + 새 조직 만들기
 export default function HomePage() {
@@ -15,6 +16,7 @@ export default function HomePage() {
 
   return (
     <div className="stack">
+      <PendingInvitesBanner />
       <div className="row">
         <h1>내 조직</h1>
       </div>

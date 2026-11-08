@@ -142,3 +142,14 @@ button.link { background: none; color: var(--accent); padding: 0; border: none; 
 .tabs a.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
 .confirm-box { border: 1px solid var(--danger); background: var(--danger-bg); border-radius: 8px; padding: 12px; width: 100%; }
 .danger-zone { border-color: var(--danger); }
+
+/* ---------- 초대 ---------- */
+.stack-tight { display: flex; flex-direction: column; gap: 2px; }
+.grow { flex: 1; min-width: 0; }
+.small { font-size: 0.82em; margin-top: 12px; }
+.alert.full { flex-basis: 100%; }
+.banner {
+  display: block; padding: 12px 16px; border-radius: var(--radius);
+  background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent);
+}
+.banner:hover { text-decoration: none; filter: brightness(1.05); }
