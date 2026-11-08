@@ -19,9 +19,9 @@ export function toLocalInput(date: Date): string {
 }
 
 const dateTimeFormat = new Intl.DateTimeFormat('ko-KR', {
-  month: 'long', day: 'numeric', weekday: 'short', hour: '2-digit', minute: '2-digit',
+  month: 'long', day: 'numeric', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
 })
-const timeFormat = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit' })
+const timeFormat = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
 const dateFormat = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
 
 /** 서버 시각 문자열 → 화면 표시용 (브라우저 로컬 시간대) */

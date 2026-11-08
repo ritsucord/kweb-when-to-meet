@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import AuthProvider from './auth/AuthProvider.tsx'
 import RequireAuth, { GuestOnly } from './auth/RequireAuth.tsx'
 import Layout from './components/Layout.tsx'
+import EventsPage from './events/EventsPage.tsx'
 import InvitesPage from './org/InvitesPage.tsx'
 import MembersPage from './org/MembersPage.tsx'
 import OrgLayout from './org/OrgLayout.tsx'
@@ -30,7 +31,8 @@ export default function App() {
               <Route path="/invites" element={<MyInvitesPage />} />
               {/* 조직 화면: OrgLayout(조직 이름, 탭) 안에 탭 페이지가 그려진다 */}
               <Route path="/orgs/:orgId" element={<OrgLayout />}>
-                <Route index element={<Navigate to="members" replace />} />
+                <Route index element={<Navigate to="events" replace />} />
+                <Route path="events" element={<EventsPage />} />
                 <Route path="members" element={<MembersPage />} />
                 <Route path="invites" element={<InvitesPage />} />
               </Route>
