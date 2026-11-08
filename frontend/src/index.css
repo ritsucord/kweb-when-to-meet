@@ -130,3 +130,15 @@ button.link { background: none; color: var(--accent); padding: 0; border: none; 
 
 /* ---------- 로그인/가입 ---------- */
 .auth-page { max-width: 420px; padding-top: 64px; }
+
+/* ---------- 조직 ---------- */
+.org-link { font-weight: 600; color: var(--text-h); }
+.org-header h1 { margin: 4px 0; }
+.badge.admin { background: var(--accent-bg); color: var(--accent); }
+.badge.member { background: var(--border); color: var(--text-muted); }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+.tabs a { padding: 8px 14px; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.tabs a:hover { text-decoration: none; color: var(--text-h); }
+.tabs a.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+.confirm-box { border: 1px solid var(--danger); background: var(--danger-bg); border-radius: 8px; padding: 12px; width: 100%; }
+.danger-zone { border-color: var(--danger); }
