@@ -1,17 +1,20 @@
 import type { CalendarEvent } from 'shared'
 
-// 주간 캘린더 계산용 순수 함수 모음. (React와 무관해서 따로 테스트하거나 재사용하기 쉽다)
+// 캘린더 계산용 순수 함수 모음. (React와 무관해서 따로 테스트하거나 재사용하기 쉽다)
 // 모든 계산은 브라우저 로컬 시간대 기준이다. 서버와 주고받을 때만 UTC 문자열로 바꾼다.
 
-export const DAY_MS = 24 * 60 * 60 * 1000
 export const WEEKDAYS = ['월', '화', '수', '목', '금', '토', '일']
 
 /** date가 속한 주의 월요일 00:00 (로컬) */
 export function startOfWeek(date: Date): Date {
-  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+  const d = startOfDay(date)
   const day = (d.getDay() + 6) % 7 // getDay()는 일요일=0이므로, 월요일=0이 되게 바꾼다
   d.setDate(d.getDate() - day)
   return d
+}
+
+export function startOfDay(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate())
 }
 
 /** 날짜에 n일을 더한다. setDate를 쓰면 서머타임이 있는 지역에서도 자정이 유지된다. */
@@ -25,6 +28,11 @@ export function isSameDay(a: Date, b: Date): boolean {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
 }
 
+/** 월요일=0 … 일요일=6 */
+export function weekdayIndex(date: Date): number {
+  return (date.getDay() + 6) % 7
+}
+
 /** 하루 칸 안에 그릴 일정 조각. 여러 날에 걸친 일정은 날마다 조각으로 나뉜다. */
 export interface Segment {
   event: CalendarEvent
@@ -36,17 +44,17 @@ export interface Segment {
   lanes: number
 }
 
-/** 일주일치 일정을 요일별 조각으로 나누고, 겹치는 조각은 옆으로 나란히 배치한다. */
-export function layoutWeek(events: CalendarEvent[], weekStart: Date): Segment[][] {
-  const days: Segment[][] = Array.from({ length: 7 }, () => [])
-  for (let i = 0; i < 7; i++) {
-    const dayStart = addDays(weekStart, i).getTime()
-    const dayEnd = addDays(weekStart, i + 1).getTime()
+/** 주어진 날들(1일 또는 7일)의 일정을 날짜별 조각으로 나누고, 겹치는 조각은 옆으로 나란히 배치한다. */
+export function layoutDays(events: CalendarEvent[], days: Date[]): Segment[][] {
+  return days.map((day) => {
+    const dayStart = startOfDay(day).getTime()
+    const dayEnd = addDays(startOfDay(day), 1).getTime()
+    const segments: Segment[] = []
     for (const event of events) {
       const s = Date.parse(event.start)
       const e = Date.parse(event.end)
       if (e <= dayStart || s >= dayEnd) continue // 이 날과 겹치지 않음
-      days[i].push({
+      segments.push({
         event,
         startMin: Math.max(0, (s - dayStart) / 60000),
         endMin: Math.min((dayEnd - dayStart) / 60000, (e - dayStart) / 60000),
@@ -54,9 +62,16 @@ export function layoutWeek(events: CalendarEvent[], weekStart: Date): Segment[][
         lanes: 1,
       })
     }
-    assignLanes(days[i])
-  }
-  return days
+    assignLanes(segments)
+    return segments
+  })
+}
+
+/** 해당 날짜와 겹치는 일정 수 (휴대폰의 날짜 선택 줄에 점으로 표시) */
+export function countOnDay(events: CalendarEvent[], day: Date): number {
+  const dayStart = startOfDay(day).getTime()
+  const dayEnd = addDays(startOfDay(day), 1).getTime()
+  return events.filter((e) => Date.parse(e.end) > dayStart && Date.parse(e.start) < dayEnd).length
 }
 
 /**

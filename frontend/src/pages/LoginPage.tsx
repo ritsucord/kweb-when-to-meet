@@ -1,9 +1,14 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router'
 import { CreateSessionRequest } from 'shared'
-import { errorMessage } from '../api/errors.ts'
-import { useAuth } from '../auth/context.ts'
-import { fieldErrors } from '../lib/form.ts'
+import { errorMessage } from '@/api/errors'
+import { useAuth } from '@/auth/context'
+import { AuthLayout } from '@/components/AuthLayout'
+import { FormField } from '@/components/FormField'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { fieldErrors } from '@/lib/form'
 
 export default function LoginPage() {
   const { login, sessionExpired } = useAuth()
@@ -20,16 +25,12 @@ export default function LoginPage() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault() // 폼 기본 동작(페이지 새로고침)을 막는다
-    const parsed = CreateSessionRequest.safeParse({ email, password })
-    if (!parsed.success) {
-      setErrors(fieldErrors(parsed.error, { email: '이메일 형식이 아닙니다.', password: '비밀번호를 입력해 주세요.' }))
-      return
-    }
-    if (password === '') {
-      setErrors({ password: '비밀번호를 입력해 주세요.' })
-      return
-    }
-    setErrors({})
+    const parsed = CreateSessionRequest.safeParse({ email: email.trim(), password })
+    const next = parsed.success ? {} : fieldErrors(parsed.error, { email: '이메일 형식이 아닙니다.' })
+    if (password === '') next.password = '비밀번호를 입력해 주세요.'
+    setErrors(next)
+    if (!parsed.success || Object.keys(next).length > 0) return
+
     setFormError(null)
     setSubmitting(true)
     try {
@@ -44,27 +45,28 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="container auth-page">
-      <form className="card stack" onSubmit={handleSubmit} noValidate>
-        <h1>로그인</h1>
-        {state?.signedUp && <div className="alert success">가입이 완료되었습니다. 로그인해 주세요.</div>}
-        {sessionExpired && !state?.signedUp && (
-          <div className="alert error">세션이 만료되었습니다. 다시 로그인해 주세요.</div>
+    <AuthLayout
+      title="로그인"
+      footer={<>계정이 없나요? <Link to="/signup" className="font-semibold underline underline-offset-4">회원가입</Link></>}
+    >
+      <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+        {state?.signedUp && (
+          <Alert><AlertDescription>가입이 완료되었습니다. 로그인해 주세요.</AlertDescription></Alert>
         )}
-        <label>
-          이메일
-          <input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          {errors.email && <span className="field-error">{errors.email}</span>}
-        </label>
-        <label>
-          비밀번호
-          <input type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          {errors.password && <span className="field-error">{errors.password}</span>}
-        </label>
-        {formError && <div className="alert error">{formError}</div>}
-        <button type="submit" disabled={submitting}>{submitting ? '로그인 중…' : '로그인'}</button>
-        <p className="muted">계정이 없나요? <Link to="/signup">회원가입</Link></p>
+        {sessionExpired && !state?.signedUp && (
+          <Alert variant="destructive"><AlertDescription>세션이 만료되었습니다. 다시 로그인해 주세요.</AlertDescription></Alert>
+        )}
+        <FormField label="이메일" error={errors.email}>
+          <Input type="email" autoComplete="email" placeholder="you@korea.ac.kr" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </FormField>
+        <FormField label="비밀번호" error={errors.password}>
+          <Input type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </FormField>
+        {formError && <Alert variant="destructive"><AlertDescription>{formError}</AlertDescription></Alert>}
+        <Button type="submit" size="lg" className="w-full" disabled={submitting}>
+          {submitting ? '로그인 중…' : '로그인'}
+        </Button>
       </form>
-    </main>
+    </AuthLayout>
   )
 }

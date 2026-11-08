@@ -3,8 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
     <title>KUrdination</title>
+    <!-- 테마 깜빡임 방지: React가 뜨기 전에 저장된 테마(기본 라이트)를 먼저 적용한다 -->
+    <script>
+      try {
+        if (localStorage.getItem('kurdination-theme') === 'dark') document.documentElement.classList.add('dark')
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
