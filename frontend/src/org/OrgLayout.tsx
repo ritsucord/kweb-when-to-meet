@@ -68,6 +68,7 @@ export default function OrgLayout() {
           aria-label="조직 메뉴"
         >
           <OrgTab to="events">일정</OrgTab>
+          <OrgTab to="availability">가능 시간</OrgTab>
           <OrgTab to="members">멤버 <span className="num">{members.length}</span></OrgTab>
           {/* 초대 관리는 관리자에게만 보인다 */}
           {myRole === 'admin' && <OrgTab to="invites">초대</OrgTab>}
