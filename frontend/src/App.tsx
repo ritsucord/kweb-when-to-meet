@@ -13,6 +13,7 @@ import HomePage from '@/pages/HomePage'
 import LoginPage from '@/pages/LoginPage'
 import MyInvitesPage from '@/pages/MyInvitesPage'
 import SignupPage from '@/pages/SignupPage'
+import AvailabilityPage from '@/availability/AvailabilityPage'
 
 // 화면(페이지)과 URL 경로를 연결하는 곳.
 // 라우트를 중첩하면 바깥 라우트(RequireAuth → Layout)가 안쪽 페이지를 감싼다.
@@ -38,6 +39,7 @@ export default function App() {
                   <Route path="/orgs/:orgId" element={<OrgLayout />}>
                     <Route index element={<Navigate to="events" replace />} />
                     <Route path="events" element={<EventsPage />} />
+                    <Route path="availability" element={<AvailabilityPage />} />
                     <Route path="members" element={<MembersPage />} />
                     <Route path="invites" element={<InvitesPage />} />
                   </Route>
