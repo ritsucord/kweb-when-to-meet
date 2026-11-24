@@ -10,18 +10,22 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [sessionExpired, setSessionExpired] = useState(false)
 
   // 세션은 HttpOnly 쿠키라 JS에서 읽을 수 없다. 그래서 "지금 로그인돼 있나?"는 서버에 묻는다.
-  const refresh = useCallback(async () => {
-    try {
-      const current = await api.getCurrentSession()
-      setUser(current.user)
-      setStatus('authenticated')
-    } catch (e) {
-      // 401이면 로그아웃 상태. 그 밖의 오류(서버 다운 등)도 일단 로그아웃으로 보고 로그인 화면을 띄운다.
-      if (errorStatus(e) !== 401) console.error(e)
-      setUser(null)
-      setStatus('anonymous')
-    }
-  }, [])
+  // 상태 변경은 응답이 온 뒤(Promise 콜백)에만 한다. effect에서 불러도 렌더가 연쇄되지 않는다.
+  const refresh = useCallback(
+    () => api.getCurrentSession().then(
+      (current) => {
+        setUser(current.user)
+        setStatus('authenticated')
+      },
+      (e: unknown) => {
+        // 401이면 로그아웃 상태. 그 밖의 오류(서버 다운 등)도 일단 로그아웃으로 보고 로그인 화면을 띄운다.
+        if (errorStatus(e) !== 401) console.error(e)
+        setUser(null)
+        setStatus('anonymous')
+      },
+    ),
+    [],
+  )
 
   // 1) 앱이 처음 뜰 때(새로고침 포함) 로그인 상태를 복원한다.
   useEffect(() => {
