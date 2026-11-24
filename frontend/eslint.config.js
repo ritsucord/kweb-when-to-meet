@@ -19,4 +19,12 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    // shadcn/ui 컴포넌트는 buttonVariants처럼 컴포넌트가 아닌 값도 함께 export하는 것이 표준 구조다.
+    // (Fast Refresh 경고만 해당. 이 폴더는 shadcn CLI가 생성·갱신한다)
+    files: ['src/components/ui/**/*.{ts,tsx}'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])

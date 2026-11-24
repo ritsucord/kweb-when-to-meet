@@ -29,5 +29,8 @@
   "allowScripts": {
     "esbuild": true,
     "better-sqlite3@13.0.3": true
+  },
+  "devDependencies": {
+    "typescript": "~6.0.2"
   }
 }
