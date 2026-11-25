@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import AuthProvider from '@/auth/AuthProvider'
+import AvailabilityPage from '@/availability/AvailabilityPage'
 import RequireAuth, { GuestOnly } from '@/auth/RequireAuth'
 import Layout from '@/components/Layout'
 import { ThemeProvider } from '@/components/theme'
@@ -38,6 +39,7 @@ export default function App() {
                   <Route path="/orgs/:orgId" element={<OrgLayout />}>
                     <Route index element={<Navigate to="events" replace />} />
                     <Route path="events" element={<EventsPage />} />
+                    <Route path="availability" element={<AvailabilityPage />} />
                     <Route path="members" element={<MembersPage />} />
                     <Route path="invites" element={<InvitesPage />} />
                   </Route>

@@ -47,6 +47,8 @@ src/
   pages/          로그인, 가입, 내 조직(홈), 받은 초대
   org/            조직 화면 틀(OrgLayout)과 멤버·초대 탭
   events/         일정 탭: 주간 캘린더, 일정 만들기·상세, 날짜 계산(week.ts)
+  availability/   가능 시간 탭: 30분 격자 선택·겹침 보기, 구간 변환(slots.ts),
+                  데이터 경계(source.ts — 지금은 Mock, 백엔드 API가 생기면 이 파일만 교체)
   lib/            time(UTC ↔ 로컬), form(zod 오류 → 필드 문구), useApi(데이터 불러오기 훅)
   hooks/          useMediaQuery (화면 크기별로 다른 컴포넌트를 그릴 때)
   design-system/  디자인 시스템 문서 페이지 (design-system.html)
