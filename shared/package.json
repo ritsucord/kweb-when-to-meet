@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "prebuild": "rm -rf dist"
+    "prebuild": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
   },
   "keywords": [],
   "type": "module",
