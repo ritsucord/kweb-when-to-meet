@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import AuthProvider from '@/auth/AuthProvider'
+import AvailabilityPage from '@/availability/AvailabilityPage'
 import RequireAuth, { GuestOnly } from '@/auth/RequireAuth'
 import Layout from '@/components/Layout'
 import { ThemeProvider } from '@/components/theme'
@@ -13,7 +14,6 @@ import HomePage from '@/pages/HomePage'
 import LoginPage from '@/pages/LoginPage'
 import MyInvitesPage from '@/pages/MyInvitesPage'
 import SignupPage from '@/pages/SignupPage'
-import AvailabilityPage from '@/availability/AvailabilityPage'
 
 // 화면(페이지)과 URL 경로를 연결하는 곳.
 // 라우트를 중첩하면 바깥 라우트(RequireAuth → Layout)가 안쪽 페이지를 감싼다.
