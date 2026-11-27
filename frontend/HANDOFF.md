@@ -8,6 +8,12 @@
 
 화면은 전부 `main`에 들어가 있고 CI 단계(타입 검사 · lint · 테스트 · 빌드)는 모두 통과합니다. **남은 큰 일은 가능 시간 탭의 백엔드 연동 하나**입니다. 지금은 Mock 데이터로 동작합니다.
 
+**처음 할 일**
+
+1. README의 "빠르게 실행하기"대로 띄우고, 가입 → 조직 만들기 → 일정 · 가능 시간 탭을 한 번씩 눌러 봅니다.
+2. `src/availability/source.ts` 주석을 읽습니다. 연동 작업은 여기서 시작합니다.
+3. 백엔드 담당자와 가능 시간 API 계약을 정합니다. (아래 4장 P0)
+
 ## 2. 현재 상태 (2026-11-27 로컬 확인)
 
 | 검사 (루트에서) | 결과 |
@@ -16,14 +22,14 @@
 | `npm exec -w frontend -- tsc -b` | 오류 0 |
 | `npm run lint -w frontend` | 오류 0 |
 | `npm test -w frontend` | 4개 파일, 22개 테스트 통과 |
-| `npm run build -w frontend` | 통과 (main JS 210 kB, gzip 63 kB) |
+| `npm run build -w frontend` | 통과 |
 
 CI(`.github/workflows/frontend.yml`)도 같은 순서로 위 다섯 단계를 실행합니다.
 
 ### 브랜치
 
 - `origin/main`에 PR #6(CI), #7(Vitest), #8 브랜치(`feat/frontend-availability`), #9~#11이 모두 병합되어 있습니다.
-- 작업은 `main`에서 새 브랜치를 따서 시작하세요. 로컬 `main`이 오래됐을 수 있으니 먼저 `git fetch && git switch main && git pull` 하세요.
+- 작업은 최신 `main`에서 새 브랜치를 따서 시작하세요.
 - `feature/availability-overlap`(백엔드 담당 ibrick21)은 **아직 main에 없습니다.** 겹침 계산 함수 `findCommonAvailability`가 들어 있고, 프론트가 쓰는 `AvailabilityInput` 타입과 같은 형태입니다.
 
 ## 3. 구현된 화면
@@ -82,11 +88,11 @@ CI(`.github/workflows/frontend.yml`)도 같은 순서로 위 다섯 단계를 �
 - **`src/components/ui/`는 shadcn 폴더지만 손댄 곳이 있습니다.** `npx shadcn add`로 덮어쓰기 전에 diff를 확인하세요. 이 폴더만 `react-refresh/only-export-components` 규칙을 끕니다(`eslint.config.js`).
 - 데이터 불러오기는 `src/lib/useApi.ts`, 조직 목록 · 받은 초대 수 공유는 `src/app/AppData.tsx`의 `refresh()`를 쓰세요. 목록을 바꾸는 동작 뒤에는 `refresh()`를 불러야 사이드바가 갱신됩니다.
 
-## 6. 11월 9일 인계서(PDF)와 달라진 점
+## 6. 이전 인계서(11월 9일)와 달라진 점
 
-PDF에서 남은 일로 적었던 항목의 현재 상태입니다.
+11월 9일 인계서에서 남은 일로 적었던 항목의 현재 상태입니다. 그 문서를 받지 않았다면 이 장은 건너뛰어도 됩니다.
 
-| PDF 항목 | 현재 |
+| 11월 9일 인계서 항목 | 현재 |
 |---|---|
 | PR #6 · #7 · #8 미병합 | 모두 `main`에 병합 |
 | CI ESLint `Intrinsic` 오류 | 해결. 루트에 TS 6 고정 |
@@ -96,7 +102,6 @@ PDF에서 남은 일로 적었던 항목의 현재 상태입니다.
 | Mock과 서버 호출 경계 분리 | `source.ts`로 분리. **API 계약 합의는 아직** |
 | README 교체 | 완료 |
 | Windows에서 `rm -rf dist` 실패 | `shared`의 prebuild를 Node `fs.rmSync`로 교체 |
-| 로컬 Git stash | 이 작업 환경에는 stash가 없습니다 |
 | 실제 모바일 검증 | **아직** |
 
 이름이 바뀐 것: `mockAvailability.ts` → `source.ts`, 예시 팀원 ID `member-a/b` → `demo-a/b`.
